@@ -1,0 +1,14 @@
+.productContainer{
+    text-align:center;
+    border: 1px solid;
+    width: 15%;
+    padding: 10px;
+    margin: 5px;
+}
+.productImage{
+    width: 50%;
+    height: auto;
+}
+.productDesc{
+    text-align:center;
+}
