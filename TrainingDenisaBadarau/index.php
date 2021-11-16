@@ -27,7 +27,7 @@ if(isset($_POST['add_to_cart'])){
 <body>
 
 <?php
-if(isset($_SESSION['cart'])){
+if(!empty($_SESSION['cart'])){
     $product_id_array=array_column($_SESSION['cart'],"id");
     $cart=implode(",",$product_id_array);
     $sql = "SELECT *  FROM products WHERE id NOT IN ($cart)";
@@ -44,10 +44,10 @@ if ($result->num_rows > 0){
         $price= $row["price"];
        ?>
     <form method="post" action="index.php?id=<?= $id; ?>">
-      <div class="productContainer">
-            <img class="productImage" src="images/1.png" alt="Product Image" width="600" height="400">
+      <div class="product-container">
+            <img class="product-image" src="images/<?= $id?>.jpg" alt="Product Image" width="600" height="400">
             <h3><?php echo $title ?></h3>
-            <div class="productDesc">
+            <div class="product-desc">
                 <?php echo $description ?>
                 <br>
                 <?php echo $price ?> $
@@ -57,12 +57,10 @@ if ($result->num_rows > 0){
     </form>
 
       <?php endwhile;
-} else {
-    echo "0 results";
 }
 ?>
-<div class="buttonContainer">
-    <div class="buttonSubmit">
+<div class="button-container">
+    <div class="button-submit">
           <a href="cart.php">
               <button >Go to cart</button>
           </a>
