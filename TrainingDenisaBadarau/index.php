@@ -1,17 +1,39 @@
-<link rel="stylesheet" href="styles.css">
-<script>
-    function addCart(id)
-    {
-        alert(id);
-    }
-</script>
-
 <?php
+session_start();
+
 require  'common.php';
 
-$cart_array=array(3);
-$cart=implode(',', $cart_array);
-$sql = "SELECT *  FROM products WHERE id NOT IN ($cart)";
+if(isset($_POST['add_to_cart'])){
+    if(isset($_SESSION['cart'])){
+        $product_id_array=array_column($_SESSION['cart'],"id");
+        if(!in_array($_GET['id'],$product_id_array)){
+            $session_array=array('id'=>$_GET['id']);
+            $_SESSION['cart'][]=$session_array;
+        }
+    }else{
+        $session_array=array('id'=>$_GET['id']);
+        $_SESSION['cart'][]=$session_array;
+    }
+
+}
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<?php
+if(isset($_SESSION['cart'])){
+    $product_id_array=array_column($_SESSION['cart'],"id");
+    $cart=implode(",",$product_id_array);
+    $sql = "SELECT *  FROM products WHERE id NOT IN ($cart)";
+}else{
+    $sql = "SELECT *  FROM products ";
+}
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0){
@@ -21,8 +43,8 @@ if ($result->num_rows > 0){
         $description=$row["description"];
         $price= $row["price"];
        ?>
-    <form>
-        <div class="productContainer">
+    <form method="post" action="index.php?id=<?= $id; ?>">
+      <div class="productContainer">
             <img class="productImage" src="images/1.png" alt="Product Image" width="600" height="400">
             <h3><?php echo $title ?></h3>
             <div class="productDesc">
@@ -30,7 +52,7 @@ if ($result->num_rows > 0){
                 <br>
                 <?php echo $price ?> $
             </div>
-            <button type="button" onclick="addCart(<?php echo $id ?>)">Add</button>
+            <input type="submit" name="add_to_cart" value="Add">
         </div>
     </form>
 
@@ -38,7 +60,18 @@ if ($result->num_rows > 0){
 } else {
     echo "0 results";
 }
+?>
+<div class="buttonContainer">
+    <div class="buttonSubmit">
+          <a href="cart.php">
+              <button >Go to cart</button>
+          </a>
+    </div>
+</div>
+<?php
 
 $conn->close();
+?>
 
-
+</body>
+</html>

@@ -12,3 +12,14 @@
 .productDesc{
     text-align:center;
 }
+.buttonContainer{
+    width: 12%;
+    position:relative;
+    margin: 10px;
+}
+.buttonSubmit{
+    margin:0;
+    position:absolute;
+    top:50%;
+    left:50%;
+}
