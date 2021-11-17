@@ -2,6 +2,7 @@
 session_start();
 
 require  'common.php';
+$conn=connect();
 
 if(isset($_POST['add_to_cart'])){
     if(isset($_SESSION['cart'])){
@@ -34,6 +35,7 @@ if(!empty($_SESSION['cart'])){
 }else{
     $sql = "SELECT *  FROM products ";
 }
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0){

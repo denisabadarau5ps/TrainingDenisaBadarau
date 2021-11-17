@@ -3,6 +3,7 @@ session_start();
 
 require 'common.php';
 require 'config.php';
+$conn=connect();
 
 if (isset($_POST['remove_from_cart'])) {
     foreach ($_SESSION["cart"] as $keys => $values) {
@@ -13,28 +14,28 @@ if (isset($_POST['remove_from_cart'])) {
 }
 
 if (isset($_POST['checkout'])) {
-    echo '<script>alert("Checkout!")</script>';
-    $name = $_POST['name'];
-    $contacts = $_POST['contact'];
-    $comments = $_POST['comments'];
+    if (!empty($_SESSION['cart'])) {
+        echo '<script>alert("Checkout!")</script>';
+        $name =testInput($_POST['name']);
+        $contacts = testInput($_POST['contact']);
+        $comments = testInput($_POST['comments']);
 
-    $to = strval($shopManagerEmail);
-    $subject = "Shopping cart";
-    $message = '
+        $to = strval($shopManagerEmail);
+        $subject = "Shopping cart";
+        $message = '
     <html>
     <head>
     <title>Shopping cart</title>
     </head>
     <body>';
-    if (!empty($_SESSION['cart'])) {
         $product_id_array = array_column($_SESSION['cart'], "id");
         $cart = implode(",", $product_id_array);
         $sql = "SELECT * FROM products WHERE id IN($cart)";
         $result = $conn->query($sql);
         $message .= '    
-        <p>Name:<' . $name . '</p>
-        <p>Contacts:' . $contacts . '</p>
-        <p>Comments:' . $comments . '</p>
+    <p>Name:<' . $name . '</p>
+    <p>Contacts:' . $contacts . '</p>
+    <p>Comments:' . $comments . '</p>
     ';
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()):
@@ -53,16 +54,18 @@ if (isset($_POST['checkout'])) {
                       ' . $price . ' $
                     </div>
                 </div>';
-
             endwhile;
-
         }
         unset($_SESSION['cart']);
-        // It is mandatory to set the content-type when sending HTML email
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers =  'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'From: Your name <info@address.com>' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-        #mail($to,$subject,$message,$headers);
+        mail($to,$subject,$message,$headers);
+
+    } else {
+        echo '<script>alert("Empty cart!")</script>';
+        unset($_POST['checkout']);
     }
 }
 
@@ -118,9 +121,9 @@ if (!empty($_SESSION['cart'])) {
 <form method="post" action="cart.php">
     <div class="checkout-details-container">
         <input type="text" name="name" size="35" value="Name" required><br><br>
-        <textarea id="contact" name="contact" cols="35" required>Contact details</textarea>
-        <textarea id="comments" name="comments" rows="5" cols="35">Comments</textarea>
-        <input type="submit" name="checkout" value="Checkout">
+        <textarea id="contact" name="contact" cols="35" required>Contact details</textarea><br><br>
+        <textarea id="comments" name="comments" rows="5" cols="35" required>Comments</textarea>
+        <input type="submit" name="checkout" value="Checkout" >
     </div>
 </form>
 
