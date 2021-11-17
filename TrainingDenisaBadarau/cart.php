@@ -33,7 +33,7 @@ if (isset($_POST['checkout'])) {
         $sql = "SELECT * FROM products WHERE id IN($cart)";
         $result = $conn->query($sql);
         $message .= '    
-    <p>Name:<' . $name . '</p>
+    <p>Name:' . $name . '</p>
     <p>Contacts:' . $contacts . '</p>
     <p>Comments:' . $comments . '</p>
     ';
@@ -58,7 +58,7 @@ if (isset($_POST['checkout'])) {
         }
         unset($_SESSION['cart']);
         $headers =  'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'From: Your name <info@address.com>' . "\r\n";
+        $headers .= 'From: Shopping shop <info@address.com>' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
         mail($to,$subject,$message,$headers);

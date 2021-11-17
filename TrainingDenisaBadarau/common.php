@@ -5,7 +5,7 @@ include 'config.php';
 #connect to database
 function connect()
 {
-    $conn=new mysqli('localhost', 'root', '', 'productsdb');
+    $conn=new mysqli('localhost','root','','productsdb');
     if($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
     }
