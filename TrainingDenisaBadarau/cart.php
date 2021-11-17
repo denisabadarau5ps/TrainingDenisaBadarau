@@ -26,6 +26,7 @@ if (isset($_POST['checkout'])) {
     <html>
     <head>
     <title>Shopping cart</title>
+      <link rel="stylesheet" href="styles.css">
     </head>
     <body>';
         $product_id_array = array_column($_SESSION['cart'], "id");
