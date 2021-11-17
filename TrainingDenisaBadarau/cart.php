@@ -120,9 +120,9 @@ if (!empty($_SESSION['cart'])) {
 
 <form method="post" action="cart.php">
     <div class="checkout-details-container">
-        <input type="text" name="name" size="35" value="Name" required><br><br>
-        <textarea id="contact" name="contact" cols="35" required>Contact details</textarea><br><br>
-        <textarea id="comments" name="comments" rows="5" cols="35" required>Comments</textarea>
+        <input type="text" name="name" size="35" placeholder="Name" required><br><br>
+        <textarea id="contact" name="contact" cols="35" placeholder="Contact details" required></textarea><br><br>
+        <textarea id="comments" name="comments" rows="5" cols="35" placeholder="Comments" required></textarea>
         <input type="submit" name="checkout" value="Checkout" >
     </div>
 </form>

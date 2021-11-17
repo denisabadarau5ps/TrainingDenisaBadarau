@@ -35,3 +35,10 @@
     padding: 10px;
     margin: 5px;
 }
+.loginContainer{
+    margin:auto;
+    width:15%;
+    border: 3px solid black;
+    padding: 30px;
+    text-align:center;
+}
