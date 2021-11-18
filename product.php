@@ -52,7 +52,7 @@ if(isset($_POST['save'])){
 <head>
     <meta charset="UTF-8">
     <title> Shopping Cart</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="views/css/styles.css">
 </head>
 <body>
     <div class="loginContainer">

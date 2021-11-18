@@ -8,7 +8,7 @@ if(isset($_POST['login'])){
     if($usernamelogin == $adminUsername){
         if($passwordlogin == $adminPass){
             $_SESSION['username']=$usernamelogin;
-            header('Location: index.php');
+            header('Location: products.php');
             exit;
 
         }else{
@@ -26,7 +26,7 @@ if(isset($_POST['login'])){
 <head>
     <meta charset="UTF-8">
     <title> Shopping Cart</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="views/css/styles.css">
 </head>
 <body>
     <div class="loginContainer">

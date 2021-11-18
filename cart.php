@@ -2,13 +2,12 @@
 session_start();
 
 require 'common.php';
-require 'config.php';
-$conn=connect();
+$conn = connect();
 
 if (isset($_POST['remove_from_cart'])) {
     foreach ($_SESSION["cart"] as $keys => $values) {
-        if ($values["id"] == $_GET["id"]) {
-            unset($_SESSION["cart"][$keys]);
+        if ($values == $_GET["id"]) {
+            unset($_SESSION["cart"][$values]);
         }
     }
 }
@@ -16,20 +15,22 @@ if (isset($_POST['remove_from_cart'])) {
 if (isset($_POST['checkout'])) {
     if (!empty($_SESSION['cart'])) {
         echo '<script>alert("Checkout!")</script>';
-        $name =testInput($_POST['name']);
+        $name = testInput($_POST['name']);
         $contacts = testInput($_POST['contact']);
         $comments = testInput($_POST['comments']);
 
-        $to = strval($shopManagerEmail);
+        $purchasedProductsId = array();
+
+        $to = strval();
         $subject = "Shopping cart";
         $message = '
     <html>
     <head>
     <title>Shopping cart</title>
-      <link rel="stylesheet" href="styles.css">
+      <link rel="stylesheet" href="views/css/styles.css">
     </head>
     <body>';
-        $product_id_array = array_column($_SESSION['cart'], "id");
+        $product_id_array = $_SESSION['cart'];
         $cart = implode(",", $product_id_array);
         $sql = "SELECT * FROM products WHERE id IN($cart)";
         $result = $conn->query($sql);
@@ -45,6 +46,8 @@ if (isset($_POST['checkout'])) {
                 $description = $row["description"];
                 $price = $row["price"];
 
+                #$_SESSION['purchasedProducts'][]=($id=>$title);
+
                 $message .= '
                 <div class="product-container">
                     <img class="product-image" src="images/' . $id . '.jpg" alt="Product Image" width="600" height="400">
@@ -58,11 +61,19 @@ if (isset($_POST['checkout'])) {
             endwhile;
         }
         unset($_SESSION['cart']);
-        $headers =  'MIME-Version: 1.0' . "\r\n";
+        $headers = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'From: Shopping shop <info@address.com>' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-        mail($to,$subject,$message,$headers);
+        mail($to, $subject, $message, $headers);
+
+        #order details
+        $_SESSION['orderDate'] = date("Y.m.d");
+        $_SESSION['customerName'] =$name;
+        $_SESSION['customerContacts']=$contacts;
+        $_SESSION['purchasedProducts']=$purchasedProductsId;
+
+        header('location: order.php');
 
     } else {
         echo '<script>alert("Empty cart!")</script>';
@@ -76,20 +87,20 @@ if (isset($_POST['checkout'])) {
 <html>
 <head>
     <title> Shopping Cart</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="views/css/styles.css">
 </head>
 <body>
 
 <?php
 
 if (!empty($_SESSION['cart'])) {
-    $product_id_array = array_column($_SESSION['cart'], "id");
+    $product_id_array = $_SESSION['cart'];
     $cart = implode(",", $product_id_array);
     $sql = "SELECT * FROM products WHERE id IN($cart)";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()):
+
+        while ($row = $result->fetch()):
             $id = $row["id"];
             $title = $row["title"];
             $description = $row["description"];
@@ -109,7 +120,7 @@ if (!empty($_SESSION['cart'])) {
             </form>
 
         <?php endwhile;
-    }
+
 } else {
     ?>
     <div class="product-container">
@@ -124,7 +135,7 @@ if (!empty($_SESSION['cart'])) {
         <input type="text" name="name" size="35" placeholder="Name" required><br><br>
         <textarea id="contact" name="contact" cols="35" placeholder="Contact details" required></textarea><br><br>
         <textarea id="comments" name="comments" rows="5" cols="35" placeholder="Comments" required></textarea>
-        <input type="submit" name="checkout" value="Checkout" >
+        <input type="submit" name="checkout" value="Checkout">
     </div>
 </form>
 

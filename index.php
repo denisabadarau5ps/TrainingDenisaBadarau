@@ -3,19 +3,15 @@ session_start();
 
 require  'common.php';
 $conn=connect();
-
+unset($_SESSION['cart']);
 if(isset($_POST['add_to_cart'])){
     if(isset($_SESSION['cart'])){
-        $product_id_array=array_column($_SESSION['cart'],"id");
-        if(!in_array($_GET['id'],$product_id_array)){
-            $session_array=array('id'=>$_GET['id']);
-            $_SESSION['cart'][]=$session_array;
+        if(!in_array($_GET['id'],$_SESSION['cart'])){
+            array_push($_SESSION['cart'],$_GET['id']);
         }
     }else{
-        $session_array=array('id'=>$_GET['id']);
-        $_SESSION['cart'][]=$session_array;
+        $_SESSION['cart']=$_GET['id'];
     }
-
 }
 
 ?>
@@ -23,13 +19,13 @@ if(isset($_POST['add_to_cart'])){
 <html>
 <head>
     <title> Shopping Cart</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="views/css/styles.css">
 </head>
 <body>
 
 <?php
 if(!empty($_SESSION['cart'])){
-    $product_id_array=array_column($_SESSION['cart'],"id");
+    $product_id_array=$_SESSION['cart'];
     $cart=implode(",",$product_id_array);
     $sql = "SELECT *  FROM products WHERE id NOT IN ($cart)";
 }else{
@@ -38,8 +34,7 @@ if(!empty($_SESSION['cart'])){
 
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0){
-    while($row = $result->fetch_assoc()):
+    while($row = $result->fetch()):
         $id=$row["id"];
         $title=$row["title"];
         $description=$row["description"];
@@ -57,9 +52,7 @@ if ($result->num_rows > 0){
             <input type="submit" name="add_to_cart" value="Add">
         </div>
     </form>
-
       <?php endwhile;
-}
 ?>
 <div class="button-container">
     <div class="button-submit">
@@ -70,7 +63,7 @@ if ($result->num_rows > 0){
 </div>
 <?php
 
-$conn->close();
+$conn=null;
 ?>
 
 </body>
