@@ -10,7 +10,7 @@ if(!isset($_SESSION['username'])){
 
 if(isset($_POST['edit'])){
     $_SESSION['prodIdEdit']=$_GET['id'];
-    header('location:product.php');
+    header('location:product.model.php');
     exit;
 }
 
@@ -23,7 +23,7 @@ if(isset($_POST['delete'])){
 }
 
 if(isset($_GET['add'])){
-    header('location:product.php');
+    header('location:product.model.php');
     exit;
 }
 
