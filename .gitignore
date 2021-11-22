@@ -2,3 +2,6 @@ config.php
 test
 .idea
 images
+views
+models
+controllers
