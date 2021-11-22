@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+include 'translate.php';
 session_start();
 
 #connect to database
@@ -16,7 +17,6 @@ function connect()
         echo $e->getMessage();
     }
 }
-$conn = connect();
 
 #validate form data
 function sanitize($input)
@@ -39,7 +39,10 @@ function addImage($fileName)
     move_uploaded_file($temp_name, $path_filename_ext);
 }
 
-
+function translate($data)
+{
+    return $data;
+}
 
 
 
