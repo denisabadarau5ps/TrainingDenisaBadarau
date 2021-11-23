@@ -51,21 +51,20 @@ if (isset($_POST['save'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <div class="login-container">
     <form action="product.php" method="post" enctype="multipart/form-data">
-        <input type="text" name="title" placeholder=<?= translate("Title") ?> required><br><br>
-        <textarea name="description" placeholder=<?= translate("Description") ?> required></textarea><br><br>
-        <input type="number" name="price" placeholder=<?= translate("Price") ?> required><br><br>
+        <input type="text" name="title" placeholder=<?= translate("Title", "en") ?> required><br><br>
+        <textarea name="description" placeholder=<?= translate("Description", "en") ?> required></textarea><br><br>
+        <input type="number" name="price" placeholder=<?= translate("Price", "en") ?> required><br><br>
         <input type="file" name="fileToUpload" id="fileToUpload" style="margin-left: 20%;" required><br><br>
         <input type="submit" name="save" value="Save"> <br><br>
     </form>
     <a href="../products.php">
-        <button>Products</button>
+        <button><?= translate("Products", "en") ?></button>
     </a>
-
 </div>
 </body>
 </html>

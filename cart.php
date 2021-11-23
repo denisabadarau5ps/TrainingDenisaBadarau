@@ -21,21 +21,21 @@ if (!empty($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <?php foreach ($data as $product): ?>
     <form method="post" action="cart.php?id=<?= $product->id; ?>">
         <div class="product-container">
             <img class="product-image" src="images/<?= $product->id ?>.jpg"
-                 alt=<?= translate("Product Image") ?> width="600" height="400">
+                 alt=<?= translate("Product Image", "en") ?> width="600" height="400">
             <h3><?= $product->title ?></h3>
             <div class="product-desc">
                 <?= $product->description ?>
                 <br>
                 <?= $product->price ?> $
             </div>
-            <input type="submit" name="remove_from_cart" value="Remove">
+            <input type="submit" name="remove_from_cart" value=<?= translate("Remove", "en") ?>>
         </div>
     </form>
 <?php
@@ -44,19 +44,19 @@ $conn = null;
 ?>
 <form method="post" action="checkout.php">
     <div class="checkout-details-container">
-        <input type="text" name="name" size="35" placeholder=<?= translate("Name") ?> required><br><br>
+        <input type="text" name="name" size="35" placeholder=<?= translate("Name", "en") ?> required><br><br>
         <textarea id="contact" name="contact" cols="35"
-                  placeholder=<?= translate("Contact details") ?> required></textarea><br><br>
+                  placeholder=<?= translate("Contact details", "en") ?> required></textarea><br><br>
         <textarea id="comments" name="comments" rows="5" cols="35"
-                  placeholder=<?= translate("Comments") ?> required></textarea>
-        <input type="submit" name="checkout" value="Checkout">
+                  placeholder=<?= translate("Comments", "en") ?> required></textarea>
+        <input type="submit" name="checkout" value=<?= translate("Checkout", "en") ?>>
     </div>
 </form>
 
 <div class="button-container">
     <div class="button-submit">
         <a href="index.php">
-            <button><?= translate("Go to index") ?></button>
+            <button><?= translate("Go to index", "en") ?></button>
         </a>
     </div>
 </div>

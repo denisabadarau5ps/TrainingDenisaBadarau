@@ -25,14 +25,14 @@ if (!empty($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <?php foreach ($data as $product): ?>
     <form method="post" action="index.php?id=<?= $product->id ?>">
         <div class="product-container">
             <img class="product-image" src="images/<?= $product->id ?>.jpg"
-                 alt=<?= translate("Product Image") ?> width="600"
+                 alt=<?= translate("Product Image", "en") ?> width="600"
                  height="400">
             <h3><?= $product->title; ?></h3>
             <div class="product-desc">
@@ -42,14 +42,11 @@ if (!empty($_SESSION['cart'])) {
             <input type="submit" name="add_to_cart" value="Add">
         </div>
     </form>
-<?php
-endforeach;
-$conn = null;
-?>
+<?php endforeach; ?>
 <div class="button-container">
     <div class="button-submit">
         <a href="cart.php">
-            <button><?= translate("Go to cart") ?></button>
+            <button><?= translate("Go to cart", "en") ?></button>
         </a>
     </div>
 </div>

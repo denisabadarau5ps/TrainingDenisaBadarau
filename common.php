@@ -17,6 +17,7 @@ function connect()
         echo $e->getMessage();
     }
 }
+$conn=connect();
 
 #validate form data
 function sanitize($input)
@@ -39,9 +40,10 @@ function addImage($fileName)
     move_uploaded_file($temp_name, $path_filename_ext);
 }
 
-function translate($data)
+function translate($data, $lang)
 {
-    return $data;
+    GLOBAL $LANG;
+    return $LANG[$lang][$data];
 }
 
 

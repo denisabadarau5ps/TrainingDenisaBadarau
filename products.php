@@ -39,14 +39,14 @@ $data = getAllProducts();
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <?php foreach ($data as $product): ?>
     <form method="post" action="products.php?id=<?= $product->id; ?>">
         <div class="product-container">
             <img class="product-image" src="images/<?= $product->id ?>.jpg"
-                 alt=<?= translate("Product Image") ?>  width="600" height="400">
+                 alt=<?= translate("Product Image", "en") ?>  width="600" height="400">
             <h3><?= $product->title ?></h3>
             <div class="product-desc">
                 <?= $product->description ?><br>
@@ -56,10 +56,7 @@ $data = getAllProducts();
             <input type="submit" name="delete" value="Delete">
         </div>
     </form>
-<?php
-endforeach;
-$conn = null;
-?>
+<?php endforeach; ?>
 <form action="products.php">
     <div class="button-group">
         <button name="add">Add</button>

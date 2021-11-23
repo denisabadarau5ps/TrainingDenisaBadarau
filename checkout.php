@@ -63,7 +63,7 @@ $message = '
 foreach($data as $product){
     $message.='
     <div class="product-container">
-        <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image") .' width="600" height="400">
+        <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image","en") .' width="600" height="400">
         <h3>' . $product->title . '</h3>
         <div class="product-desc">
             <p>' . $product->description . '</p> <br>

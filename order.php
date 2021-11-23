@@ -17,7 +17,7 @@ unset($_SESSION['summed']);
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <div class="order-container">
@@ -25,7 +25,7 @@ unset($_SESSION['summed']);
     <?php foreach ($data as $product): ?>
         <div class="order-product-container">
             <img class="product-image" src="images/<?= $product->id ?>.jpg"
-                 alt=<?= translate("Product Image") ?>  width="600" height="400">
+                 alt=<?= translate("Product Image", "en") ?>  width="600" height="400">
             <h4><?= $product->title ?></h4>
             <div class="product-desc">
                 <?= $product->price ?> $
@@ -35,7 +35,7 @@ unset($_SESSION['summed']);
     <p>Contact details: <?= $contacts ?></p>
     <h3>TOTAL: <?= $summed ?>$</h3>
     <a href="index.php">
-        <button>Index</button>
+        <button><?= translate("Go to index", "en") ?></button>
     </a>
 </div>
 </body>

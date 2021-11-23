@@ -24,14 +24,15 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <title><?= translate("Shopping Page") ?></title>
+    <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
 <div class="login-container">
+    <h1>Login admin</h1>
     <form action="login.php" method="post">
-        <input type="text" name="username" placeholder=<?= translate("Username") ?> required><br><br>
-        <input type="password" name="password" placeholder=<?= translate("Password") ?> required><br><br>
-        <input type="submit" name="login" value="Login">
+        <input type="text" name="username" placeholder=<?= translate("Username", "en") ?> required><br><br>
+        <input type="password" name="password" placeholder=<?= translate("Password", "en") ?> required><br><br>
+        <input type="submit" name="login" value=<?= translate("Login", "en") ?>>
     </form>
 </div>
 </body>
