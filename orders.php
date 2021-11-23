@@ -24,6 +24,7 @@ $orders = $conn->query($sql)->fetchAll(PDO::FETCH_CLASS);
         <th>Order customer</th>
         <th>Created date</th>
         <th>Summed price</th>
+        <th>Products</th>
     </tr>
     <?php foreach ($orders as $order): ?>
         <tr>
@@ -31,6 +32,7 @@ $orders = $conn->query($sql)->fetchAll(PDO::FETCH_CLASS);
             <td><?= $order->name ?></td>
             <td><?= $order->ord_date ?></td>
             <td><?= getSummedPrice($order->id) ?>$</td>
+            <td><?= getProduductsFromOrder($order->id) ?></td>
         </tr>
     <?php endforeach; ?>
 </table>
