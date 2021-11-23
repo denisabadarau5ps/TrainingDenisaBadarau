@@ -29,4 +29,16 @@ function getAllProductsFromCart($cart)
     return $data;
 }
 
+//get summed price of the attached products from an order
+function getSummedPrice($orderId)
+{
+    $conn=connect();
+    $sql="SELECT SUM(product_price) as sum FROM order_details WHERE order_id=?";
+    $stmt=$conn->prepare($sql);
+    $stmt->bindParam(1,$orderId);
+    $stmt->execute();
+    $result=$stmt->fetch();
+    $summed=$result['sum'];
+    return $summed;
+}
 

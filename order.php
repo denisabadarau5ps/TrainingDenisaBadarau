@@ -2,12 +2,14 @@
 require_once 'common.php';
 require_once 'product.functions.php';
 $conn = connect();
-$name=$_SESSION['name'];
+$name = $_SESSION['name'];
 unset($_SESSION['name']);
-$contacts=$_SESSION['contacts'];
+$contacts = $_SESSION['contacts'];
 unset($_SESSION['contacts']);
-$data=getAllProductsFromCart($_SESSION['cart']);
+$data = getAllProductsFromCart($_SESSION['cart']);
 unset($_SESSION['cart']);
+$summed = $_SESSION['summed'];
+unset($_SESSION['summed']);
 ?>
 
 <!DOCTYPE html>
@@ -18,19 +20,23 @@ unset($_SESSION['cart']);
     <title><?= translate("Shopping Page") ?></title>
 </head>
 <body>
-<div class="login-container">
-   <h1><?= $name ?>, your order is: </h1>
+<div class="order-container">
+    <h1><?= $name ?>, your order is: </h1>
     <?php foreach ($data as $product): ?>
-        <div class="product-container">
+        <div class="order-product-container">
             <img class="product-image" src="images/<?= $product->id ?>.jpg"
-                     alt=<?= translate("Product Image") ?>  width="600" height="400">
-            <h3><?= $product->title ?></h3>
+                 alt=<?= translate("Product Image") ?>  width="600" height="400">
+            <h4><?= $product->title ?></h4>
             <div class="product-desc">
                 <?= $product->price ?> $
             </div>
         </div>
     <?php endforeach; ?>
-    <p>Contacts details: <?= $contacts?></p>
+    <p>Contact details: <?= $contacts ?></p>
+    <h3>TOTAL: <?= $summed ?>$</h3>
+    <a href="index.php">
+        <button>Index</button>
+    </a>
 </div>
 </body>
 </html>

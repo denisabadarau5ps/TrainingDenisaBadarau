@@ -14,13 +14,13 @@ $stmt->bindParam(1, $name);
 $stmt->bindParam(2, $contacts);
 $stmt->execute();
 
-$_SESSION['orderDate'] = date("Y.m.d");
-
 //get customer id
 $sql = "SELECT id FROM customers ORDER BY id DESC LIMIT 1";
 $result = $conn->query($sql);
 $row = $result->fetch();
 $customer_id = $row['id'];
+
+$_SESSION['orderDate'] = date("Y.m.d");
 
 //add order in orders table
 $sql = "INSERT INTO orders(customer_id, order_date) VALUES(?,?)";
@@ -63,7 +63,7 @@ $message = '
 foreach($data as $product){
     $message.='
     <div class="product-container">
-        <img class="product-image" src="images/' . $product->id . '.jpg" alt=<?= translate("Product Image") ?> width="600" height="400">
+        <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image") .' width="600" height="400">
         <h3>' . $product->title . '</h3>
         <div class="product-desc">
             <p>' . $product->description . '</p> <br>
@@ -78,9 +78,9 @@ $to = strval(SHOP_MANAGER_EMAIL);
 $subject = "Shopping page";
 mail($to, $subject, $message, $headers);
 
-//customer details
+//checkout details for order view
 $_SESSION['name']=$name;
 $_SESSION['contacts']=$contacts;
-
+$_SESSION['summed']=getSummedPrice($order_id);
 header('location: order.php');
 exit;
