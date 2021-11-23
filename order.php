@@ -1,7 +1,6 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
-$conn = connect();
 $name = $_SESSION['name'];
 unset($_SESSION['name']);
 $contacts = $_SESSION['contacts'];

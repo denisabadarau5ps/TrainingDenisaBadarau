@@ -1,7 +1,6 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
-$conn=connect();
 #order details
 $name = sanitize($_POST['name']);
 $contacts = sanitize($_POST['contact']);

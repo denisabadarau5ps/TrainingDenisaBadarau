@@ -1,6 +1,5 @@
 <?php
 include 'common.php';
-$conn = connect();
 
 if (!isset($_SESSION['username'])) {
     header('location:login.php');
