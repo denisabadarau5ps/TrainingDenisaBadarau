@@ -55,6 +55,6 @@ function getProduductsFromOrder($orderId)
     foreach ($result as $product) {
         array_push($names, $product->title);
     }
-    return implode(",", $names);
+    return implode(", ", $names);
 }
 
