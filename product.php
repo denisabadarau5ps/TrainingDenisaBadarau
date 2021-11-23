@@ -18,7 +18,7 @@ if (isset($_POST['save'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(1, $title);
         $stmt->bindParam(2, $description);
-        $stmt->bindParam(3, $prodIdEdit);
+        $stmt->bindParam(3, $price);
         $stmt->bindParam(4, $prodIdEdit);
         $stmt->execute();
         //update the image
