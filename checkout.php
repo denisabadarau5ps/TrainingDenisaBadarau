@@ -2,9 +2,9 @@
 require_once 'common.php';
 require_once 'product.functions.php';
 #order details
-$name = sanitize($_POST['name']);
-$contacts = sanitize($_POST['contact']);
-$comments = sanitize($_POST['comments']);
+$name = $_SESSION['name'];
+$contacts = $_SESSION['contacts'];
+$comments = $_SESSION['comments'];
 
 //add customer details in customers table
 $sql = "INSERT INTO customers(name, contacts) VALUES(?,?)";
@@ -39,11 +39,12 @@ $data=getAllProductsFromCart($_SESSION['cart']);
 
 //add details for each product from order in order_details table
 foreach ($data as $product) {
-    $sql = "INSERT INTO order_details(order_id, product_id, product_price) VALUES(?,?,?)";
+    $sql = "INSERT INTO order_details(order_id, product_id, product_price, quantity) VALUES(?,?,?,?)";
     $stmt=$conn->prepare($sql);
     $stmt->bindParam(1,$order_id);
     $stmt->bindParam(2,$product->id);
     $stmt->bindParam(3,$product->price);
+    $stmt->bindParam(4, getQuantity($product->id, $_SESSION['cart']));
     $stmt->execute();
 }
 
@@ -55,21 +56,26 @@ $message = '
       <link rel="stylesheet" href="styles.css">
     </head>
     <body>  
-    <p>Name:' . $name . '</p>
-    <p>Contacts:' . $contacts . '</p>
-    <p>Comments:' . $comments . '</p>';
+        <p>Name:' . $name . '</p>
+        <p>Contacts:' . $contacts . '</p>
+        <p>Comments:' . $comments . '</p>';
 
 foreach($data as $product){
     $message.='
-    <div class="product-container">
-        <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image","en") .' width="600" height="400">
-        <h3>' . $product->title . '</h3>
-        <div class="product-desc">
-            <p>' . $product->description . '</p> <br>
-            <p>' . $product->price . ' $ </p>
-        </div>
-    </div>';
+        <div class="product-container">
+            <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image","en") .' width="600" height="400">
+            <h3>' . $product->title . '</h3>
+            <div class="product-desc">
+                <p>' . $product->description . '</p> <br>
+                <p>' . getPrice($product->price, getQuantity($product->id, $_SESSION['cart'])) . ' $ </p>
+                <p>Quantity: ' .  getQuantity($product->id, $_SESSION['cart']) . ' $ </p>
+            </div>
+        </div>';
 }
+$message.='
+    </body>
+    </html>
+';
 $headers = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'From: Shopping shop <info@address.com>' . "\r\n";
 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -78,8 +84,8 @@ $subject = "Shopping page";
 mail($to, $subject, $message, $headers);
 
 //checkout details for order view
-$_SESSION['name']=$name;
-$_SESSION['contacts']=$contacts;
 $_SESSION['summed']=getSummedPrice($order_id);
-header('location: order.php');
-exit;
+
+//redirect to order view
+header('Location: order.php');
+die();
