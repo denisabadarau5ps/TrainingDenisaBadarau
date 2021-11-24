@@ -45,7 +45,8 @@ foreach ($data as $product) {
     $stmt->bindParam(1,$order_id);
     $stmt->bindParam(2,$product->id);
     $stmt->bindParam(3,$product->price);
-    $stmt->bindParam(4, getQuantity($product->id, $_SESSION['cart']));
+    $quantity=getQuantity($product->id, $_SESSION['cart']);
+    $stmt->bindParam(4, $quantity);
     $stmt->execute();
 }
 
@@ -87,6 +88,6 @@ mail($to, $subject, $message, $headers);
 //checkout details for order view
 $_SESSION['summed']=getSummedPrice($order_id);
 
-//redirect to order view
+/*//redirect to order view
 header('Location: order.php');
-die();
+die();*/

@@ -2,6 +2,7 @@
 require_once 'common.php';
 require_once 'product.functions.php';
 
+$errors=[];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['remove_from_cart'])) {
         foreach ($_SESSION["cart"] as $keys => $values) {
@@ -22,18 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     if (isset($_POST["checkout"])) {
-        $_SESSION['name'] = sanitize($_POST['name']);
-        $_SESSION['contacts'] = sanitize($_POST['contact']);
+        if (!empty($_POST['name'])) {
+            $_SESSION['name'] = sanitize($_POST['name']);
+        } else {
+            $errors['name'] = 'Empty name';
+        }
+        $_SESSION['contacts'] = sanitize($_POST['contacts']);
         $_SESSION['comments'] = sanitize($_POST['comments']);
-        if (!empty($_SESSION['cart'])) {
+        if (!empty($_SESSION['cart']) && empty($errors)) {
             header('Location:checkout.php');
             die();
-        } else {
-            echo '<script>alert("Empty cart!")</script>';
         }
     }
-    header('Location: cart.php');
-    die();
+    if (empty($errors)){
+        header('Location: cart.php');
+        die();
+    }
 }
 $data = !empty($_SESSION['cart']) ? getAllProductsFromCart($_SESSION['cart']) : [];
 ?>
@@ -66,11 +71,16 @@ $data = !empty($_SESSION['cart']) ? getAllProductsFromCart($_SESSION['cart']) : 
     <?php endforeach; ?>
     <form method="post" action="cart.php">
         <div class="checkout-details-container">
-            <input type="text" name="name" size="35" placeholder=<?= translate("Name", "en") ?> required><br><br>
-            <textarea id="contact" name="contact" cols="35"
-                  placeholder=<?= translate("Contact details", "en") ?> required></textarea><br><br>
+            <input type="text" name="name" size="35" placeholder=<?= translate("Name", "en") ?>  value="<?= isset($_POST['name']) ? $_POST['name'] : '' ?>">
+            <br>
+            <?php if (key_exists('name', $errors)): ?>
+                <p><?= $errors['name'] ?></p>
+            <?php endif; ?>
+            <br>
+            <textarea id="contacts" name="contacts" cols="35"
+                  placeholder=<?= translate("Contact details", "en") ?> ><?= isset($_POST['contacts']) ? $_POST['contacts'] : '' ?></textarea><br><br>
             <textarea id="comments" name="comments" rows="5" cols="35"
-                  placeholder=<?= translate("Comments", "en") ?> required></textarea>
+                  placeholder=<?= translate("Comments", "en") ?> ></textarea>
             <input type="submit" name="checkout" value=<?= translate("Checkout", "en") ?>>
         </div>
     </form>
