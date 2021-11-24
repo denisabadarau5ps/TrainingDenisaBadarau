@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 include 'translate.php';
+
 session_start();
 
 #connect to database
@@ -19,7 +20,7 @@ function connect()
 }
 $conn=connect();
 
-#validate form data
+#sanitize form data
 function sanitize($input)
 {
     $input = trim($input);
@@ -28,7 +29,7 @@ function sanitize($input)
     return $input;
 }
 
-//add an image in forlder
+//add an image in folder
 function addImage($fileName)
 {
     $targetDir = "C:/xampp/htdocs/images/";
@@ -45,6 +46,3 @@ function translate($data, $lang)
     GLOBAL $LANG;
     return $LANG[$lang][$data];
 }
-
-
-

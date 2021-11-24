@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['index'])) {
         unset($_SESSION['cart']);

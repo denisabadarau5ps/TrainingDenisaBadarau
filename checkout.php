@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 #order details
 $name = $_SESSION['name'];
 $contacts = $_SESSION['contacts'];

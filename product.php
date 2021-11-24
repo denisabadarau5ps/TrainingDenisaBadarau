@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $price = $_POST['price'];
         if (isset($_SESSION['prodIdEdit'])) {
             #update an item
-            echo '<script>alert("Updated")</script>';
             $prodIdEdit = $_SESSION['prodIdEdit'];
             $sql = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($sql);
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             unset($_SESSION['prodIdEdit']);
         } else {
             #add an item
-            echo '<script>alert("Added")</script>';
             $conn = connect();
             $sql = "INSERT INTO products (title, description, price) VALUES(?,?,?)";
             $stmt = $conn->prepare($sql);

@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_SESSION['cart']) && !array_key_exists($_GET['id'], $_SESSION['cart'])) {
         $_SESSION['cart'] += [$_GET['id'] => $_POST['quantity']];

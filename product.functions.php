@@ -1,5 +1,6 @@
 <?php
 require_once 'common.php';
+
 //get all products from products table
 function getAllProducts()
 {

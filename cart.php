@@ -1,11 +1,12 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['remove_from_cart'])) {
         foreach ($_SESSION["cart"] as $keys => $values) {
             if ($keys == $_GET["id"]) {
-                if ($_SESSION["cart"][$keys] ==1) {
+                if ($_SESSION["cart"][$keys] == 1) {
                     unset($_SESSION['cart'][$keys]);
                 } else {
                     $_SESSION["cart"][$keys]--;
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add_in_cart'])) {
         foreach ($_SESSION["cart"] as $keys => $values) {
             if ($keys == $_GET["id"]) {
-                    $_SESSION["cart"][$keys]++;
+                $_SESSION["cart"][$keys]++;
             }
         }
     }

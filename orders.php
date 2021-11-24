@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 if (!isset($_SESSION['username'])) {
     header('location:login.php');
     exit;
