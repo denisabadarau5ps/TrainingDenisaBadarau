@@ -20,11 +20,11 @@ $orders = $conn->query($sql)->fetchAll(PDO::FETCH_CLASS);
 <body>
     <table>
         <tr>
-            <th><?= translate("Order number", "en") ?>/th>
-            <th><?= translate("Order customer", "en") ?>/th>
-            <th><?= translate("Created date", "en") ?>/th>
-            <th><?= translate("Summed price", "en") ?>/th>
-            <th><?= translate("Products", "en") ?>/th>
+            <th><?= translate("Order number", "en") ?></th>
+            <th><?= translate("Order customer", "en") ?></th>
+            <th><?= translate("Created date", "en") ?></th>
+            <th><?= translate("Summed price", "en") ?></th>
+            <th><?= translate("Products", "en") ?></th>
         </tr>
         <?php foreach ($orders as $order): ?>
             <tr>
