@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require_once 'product.functions.php';
+
 if (!isset($_SESSION['username'])) {
     header('location:login.php');
     exit;
@@ -18,23 +19,23 @@ $orders = $conn->query($sql)->fetchAll(PDO::FETCH_CLASS);
     <title><?= translate("Shopping Page", "en") ?></title>
 </head>
 <body>
-<table>
-    <tr>
-        <th>Order number</th>
-        <th>Order customer</th>
-        <th>Created date</th>
-        <th>Summed price</th>
-        <th>Products</th>
-    </tr>
-    <?php foreach ($orders as $order): ?>
+    <table>
         <tr>
-            <td><?= $order->id ?></td>
-            <td><?= $order->name ?></td>
-            <td><?= $order->ord_date ?></td>
-            <td><?= getSummedPrice($order->id) ?>$</td>
-            <td><?= getProduductsFromOrder($order->id) ?></td>
+            <th><?= translate("Order number", "en") ?></th>
+            <th><?= translate("Order customer", "en") ?></th>
+            <th><?= translate("Created date", "en") ?></th>
+            <th><?= translate("Summed price", "en") ?></th>
+            <th><?= translate("Products", "en") ?></th>
         </tr>
-    <?php endforeach; ?>
-</table>
+        <?php foreach ($orders as $order): ?>
+            <tr>
+                <td><?= $order->id ?></td>
+                <td><?= $order->name ?></td>
+                <td><?= $order->ord_date ?></td>
+                <td><?= getSummedPrice($order->id) ?>$</td>
+                <td><?= getProduductsFromOrder($order->id) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 </body>
 </html>
