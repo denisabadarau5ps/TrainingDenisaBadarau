@@ -36,12 +36,12 @@ $summed = $_SESSION['summed'];
                 <div class="product-desc">
                     Quantity: <?= getQuantity($product->id, $_SESSION['cart']) ?>
                     <br>
-                    <?= getPrice($product->price, getQuantity($product->id, $_SESSION['cart'])) ?> $
+                    <?= $product->price ?> $
                 </div>
             </div>
         <?php endforeach; ?>
         <p>Contact details: <?= $contacts ?></p>
-        <h3>TOTAL: <?= $summed ?>$</h3>
+        <h3>TOTAL: <?= $summed ?> $</h3>
         <form action="order.php" method="post">
             <input type="submit" name="index" value=<?= translate("Go to index", "en") ?>>
         </form>

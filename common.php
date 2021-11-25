@@ -33,12 +33,21 @@ function sanitize($input)
 function addImage($fileName)
 {
     $targetDir = "C:/xampp/htdocs/images/";
-    $file = $_FILES['fileToUpload']['name'];
-    $path = pathinfo($file);
-    $ext = $path['extension'];
-    $temp_name = $_FILES['fileToUpload']['tmp_name'];
-    $path_filename_ext = $targetDir . $fileName . "." . $ext;
-    move_uploaded_file($temp_name, $path_filename_ext);
+    $ext ='jpg';
+    $tempName = $_FILES['fileToUpload']['tmp_name'];
+    $pathFilenameExt = $targetDir . $fileName . "." . $ext;
+    move_uploaded_file($tempName, $pathFilenameExt);
+}
+
+//delete an image from images file
+function deleteImage($fileName)
+{
+    $targetDir = "C:/xampp/htdocs/images/";
+    $ext = 'jpg';
+    $pathFilenameExt = $targetDir . $fileName . "." . $ext;
+    if (file_exists($pathFilenameExt)){
+        unlink($pathFilenameExt);
+    }
 }
 
 function translate($data, $lang)

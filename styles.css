@@ -76,3 +76,6 @@ th{
 th,td{
     padding: 10px;
 }
+p.errors{
+    color:red;
+}

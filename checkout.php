@@ -51,35 +51,38 @@ foreach ($data as $product) {
 }
 
 //email for shop manager
-$message = '
-    <html>
+ob_start()
+?>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-    <title>Shopping page</title>
-      <link rel="stylesheet" href="styles.css">
+        <meta charset="UTF-8">
+        <title><?= translate("Shopping Page", "en") ?></title>
+        <link rel="stylesheet" href="C:/xampp/htdocs/styles.css">
     </head>
-    <body>  
-        <p>Name:' . $name . '</p>
-        <p>Contacts:' . $contacts . '</p>
-        <p>Comments:' . $comments . '</p>';
-
-foreach($data as $product){
-    $message.='
-        <div class="product-container">
-            <img class="product-image" src="images/' . $product->id . '.jpg" alt='. translate("Product Image","en") .' width="600" height="400">
-            <h3>' . $product->title . '</h3>
-            <div class="product-desc">
-                <p>' . $product->description . '</p> <br>
-                <p>' . getPrice($product->price, getQuantity($product->id, $_SESSION['cart'])) . ' $ </p>
-                <p>Quantity: ' .  getQuantity($product->id, $_SESSION['cart']) . ' $ </p>
-            </div>
-        </div>';
-}
-$message.='
-    </body>
-    </html>
-';
+        <body>
+            <p>Name:<?= $name ?></p>
+            <p>Contacts:<?= $contacts ?></p>
+            <p>Comments:<?= $comments ?></p>
+            <?php foreach($data as $product): ?>
+                <div class="product-container">
+                    <img class="product-image" src="C:/xampp/htdocs/images/<?= $product->id ?>.jpg"
+                         alt=<?= translate("Product Image", "en") ?> width="600" height="400">
+                    <h3><?= $product->title ?></h3>
+                    <div class="product-desc">
+                        <p><?= $product->description ?></p>
+                        <p><?= $product->price ?> $ </p>
+                        <p>Quantity: <?= getQuantity($product->id, $_SESSION['cart']) ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            <h2> Total: <?= getSummedPrice($order_id) ?> $ </h2>
+        </body>
+</html>
+<?php
+$message = ob_get_clean();
 $headers = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'From: Shopping shop <info@address.com>' . "\r\n";
+$headers .= 'From: Shopping Page <info@address.com>' . "\r\n";
 $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 $to = strval(SHOP_MANAGER_EMAIL);
 $subject = "Shopping page";
@@ -88,6 +91,6 @@ mail($to, $subject, $message, $headers);
 //checkout details for order view
 $_SESSION['summed']=getSummedPrice($order_id);
 
-/*//redirect to order view
+//redirect to order view
 header('Location: order.php');
-die();*/
+die();

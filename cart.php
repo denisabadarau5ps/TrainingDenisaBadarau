@@ -26,10 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($_POST['name'])) {
             $_SESSION['name'] = sanitize($_POST['name']);
         } else {
-            $errors['name'] = 'Empty name';
+            $errors['name'] = 'Empty name field';
         }
-        $_SESSION['contacts'] = sanitize($_POST['contacts']);
-        $_SESSION['comments'] = sanitize($_POST['comments']);
+        if (!empty($_POST['contacts'])) {
+            $_SESSION['contacts'] = sanitize($_POST['contacts']);
+        } else {
+            $errors['contacts'] = 'Empty contacts field';
+        }
+        if (!empty($_POST['comments'])) {
+            $_SESSION['comments'] = sanitize($_POST['comments']);
+        } else {
+            $errors['comments'] = 'Empty comments field';
+        }
         if (!empty($_SESSION['cart']) && empty($errors)) {
             header('Location:checkout.php');
             die();
@@ -60,7 +68,9 @@ $data = !empty($_SESSION['cart']) ? getAllProductsFromCart($_SESSION['cart']) : 
                 <div class="product-desc">
                     <?= $product->description ?>
                     <br>
-                    <?= getPrice($product->price, getQuantity($product->id, $_SESSION['cart'])) ?> $
+                    Price: <?= $product->price ?>$
+                    <br>
+                    Total: <?= getPrice($product->price, getQuantity($product->id, $_SESSION['cart'])) ?> $
                     <br>
                     Quantity: <?= getQuantity($product->id, $_SESSION['cart']) ?>
                 </div>
@@ -74,13 +84,22 @@ $data = !empty($_SESSION['cart']) ? getAllProductsFromCart($_SESSION['cart']) : 
             <input type="text" name="name" size="35" placeholder=<?= translate("Name", "en") ?>  value="<?= isset($_POST['name']) ? $_POST['name'] : '' ?>">
             <br>
             <?php if (key_exists('name', $errors)): ?>
-                <p><?= $errors['name'] ?></p>
+                <p class="errors"><?= $errors['name'] ?></p>
             <?php endif; ?>
             <br>
             <textarea id="contacts" name="contacts" cols="35"
-                  placeholder=<?= translate("Contact details", "en") ?> ><?= isset($_POST['contacts']) ? $_POST['contacts'] : '' ?></textarea><br><br>
+                      placeholder=<?= translate("Contact details", "en") ?>><?= isset($_POST['contacts']) ? $_POST['contacts'] : '' ?></textarea>
+            <br>
+            <?php if (key_exists('contacts', $errors)): ?>
+                <p class="errors"><?= $errors['contacts'] ?></p>
+            <?php endif; ?>
+            <br>
             <textarea id="comments" name="comments" rows="5" cols="35"
-                  placeholder=<?= translate("Comments", "en") ?> ></textarea>
+                      placeholder=<?= translate("Comments", "en") ?>><?= isset($_POST['comments']) ? $_POST['comments'] : '' ?></textarea>
+            <br>
+            <?php if (key_exists('comments', $errors)): ?>
+                <p class="errors"><?= $errors['comments'] ?></p>
+            <?php endif; ?>
             <input type="submit" name="checkout" value=<?= translate("Checkout", "en") ?>>
         </div>
     </form>
